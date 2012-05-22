@@ -1,14 +1,44 @@
 ---
-layout: proj
+layout: project
 title: "Strobe"
 ---
 
-<pre>
-- Type-checker for JavaScript
-  - Explicit annotations
-  - No program transformations
+<h1>Strobe: A Type-Checker for JavaScript</h1>
 
-- Uses flow analysis to account for local control and state (examples)
-- Accounts for JavaScript's peculiar uses of objects (examples)
+<p>Strobe is a type-checker for JavaScript that employs several novel techniques to type-check JavaScript programs.</p>
+
+<h2>Type Checking + Flow Analysis</h2>
+
+<p>TODO: control flow graph</p>
+
+{% highlight javascript %}
+/*: forall a . Array<'a> * Num * Num + Undef -> Array<'a> */
+function slice(arr, start, stop) {
+  if (typeof stop === "undefined") {
+    stop = arr.length;
+  }
+  var r = /*: 'a */[ ];
+  for (var i = start; start < stop; i++) {
+    r.push(arr[i]);
+  }
+  return r;
+}
+{% endhighlight %}
+
+<pre>
+
+<h2>Fluid Object Types (TODO: we have a new name for this?)</h2>
+
+- examples
+
+<h2>Type-checking &lambda;<sub>JS</sub></h2>
+
+- We use LambdaJS, not JavaScript
+
+<h2>Applications</h2>
+
+- ADsafety
+
+- Type-checking extensions
 
 </pre>

@@ -5,20 +5,25 @@ title: LambdaJS
 
 <h1>&lambda;<sub>JS</sub>: A Tested Semantics for JavaScript</h1>
 
-<p>&lambda;<sub>JS</sub> is a small, tested semantics for JavaScript.
+<p>&lambda;<sub>JS</sub> is a tested operational semantics for JavaScript.  We
+designed it to be amenable to proofs and a simple target language for
+tools.</p>
+
+<p>The core semantics is much smaller and simpler than the JavaScript
+specification (three pages vs. 180 pages). Therefore, several researchers
+working with JavaScript use &lambda;<sub>JS</sub> to simplify their work.</p>
 
 
-<p>&Lambda;<sub>JS</sub> is a Felleisen-Hieb style semantics for JavaScript. 
+
+<p>&lambda;<sub>JS</sub> also features a 
 
 <h2>Based on the JavaScript Specification</h2>
 
 <p>&lambda;<sub>JS</sub> unambiguously encodes the prose in the official
 JavaScript specification (ECMA-262).</p>
 
-<table class="small">
-<tr>
-<td>
-<table class="bordered">
+<figure style="float: left; width: 300px">
+<table class="bordered small">
 <tr>
 <th>Input Type</th>
 <th>Result</th>
@@ -39,15 +44,16 @@ JavaScript specification (ECMA-262).</p>
 <td>etc.</td>
 </tr>
 </table>
-</td>
+<figcaption>Algorithm 9.9 from ECMA-262, 3rd ed.</figcaption>
+</figure>
 
-<td>
-<pre>
+<figure style="float:left">
+{% highlight ocaml %}
 let toObject = fun(x) .
   if typeof x === "undefined" then
     throw makeException("TypeError")
   else if x === null then
-    throw makeException("TypError")
+    throw makeException("TypeError")
   else if typeof x === "boolean" then
     ref { 
       "$proto": "$Boolean.prototype",
@@ -56,61 +62,90 @@ let toObject = fun(x) .
     }
   else
     ...
-</td>
-</tr>
-
-<tr>
-<th>Algorithm 9.9 from the ECMA-262, 3rd. ed</th>
-<th>The same algorithm from the &lambda;<sub>JS</sub> source</th>
-</table>
+{% endhighlight %}
+<figcaption>Algorithm 9.9 encoded in &lambda;<sub>JS</sub></figcaption>
+</figure>
 
 <h2>Tractable Reduction Semantics</h2>
 
-We designed &lambda;<sub>JS</sub> to be amenable to proofs and an easy target
-for tools. We factor &lambda;<sub>JS</sub> into two components: a <i>reduction
-semantics</i> and a <i>desugaring function</i>.
+<p>&lambda;<sub>JS</sub> is factored into two components: a <i>reduction
+semantics</i> and a <i>desugaring function</i>.</p>
+
+<ul>
+
+<li>The reduction semantics models JavaScript's
+essentials&mdash;prototype-based objects, first-class functions, and control
+operators. The reduction semantics is mechanized with the <a
+href="http://coq.inria.fr/">Coq Proof Assistant</a> and <a
+href="http://redex.racket-lang.org">PLT Redex</a>.
+</li>
+
+<li>The desugaring function models JavaScript's details&mdash;implicit type
+conversions, four kinds of loops, switch statements, broken class-like syntax,
+etc. We implement desugaring in 600 lines of Haskell (with 2,000 lines for the
+JavaScript environment). With the expection of the <code>with</code> statement,
+desugaring is compositional, which lets us lift theorems about
+&lambda;<sub>JS</sub> to JavaScript theorems.</li>
+
+</ul>
+
+<p>Therefore, we simplify our JavaScript tools by first desugaring to
+equivalent &lambda;<sub>JS</sub> programs.</p>
 
 <h2>Tested Against Real Web Browsers</h2>
 
-<p>We
+<p>Since we mechanize desugaring and the reduction semantics, we are obliged to
+ask if &lambda;<sub>JS</sub> is an adequate model of JavaScript. To do so, we
+test &lambda;<sub>JS</sub> against real Web browsers to confirm that it
+produces the same result.</p>
 
-Tested to conform with actual Web browsers (December 2009)
-
+<figure style="float:right">
 <img src="img/lambdajs-testing.png">
+<figcaption>The &lambda;<sub>JS</sub> Testing Experiment</figure>
+</figure>
 
 <h2>Foundation for Several Tools</h2>
 
+<p>Several other groups have built systems with &lambda;<sub>JS</sub>:</p>
 
-Others have built on λJS too:
+<ul>
 
-David van Horn and Matt Might use λJS to build an analytic framework for JavaScript,
+<li>David van Horn and Matt Might use λ<sub>JS</sub> to build an <a
+href="http://www.ccs.neu.edu/home/dvanhorn/pubs/vanhorn-might-preprint11.pdf">analytic
+framework for JavaScript</a>,</li>
 
-Rodolfo Toledo and Éric Tanter use λJS to specify aspects for JavaScript,
+<li>Rodolfo Toledo and Éric Tanter use λ<sub>JS</sub> to specify <a
+href="http://swp.dcc.uchile.cl/TR/2011/TR_DCC-20110516-007.pdf">aspects for
+JavaScript</a>,</li>
 
-IBEX, from Microsoft Research, uses λJS for its JavaScript backend to produce verified Web browser extensions, and
+<li><a href="http://research.microsoft.com/apps/pubs/?id=146018">IBEX</a>, from
+Microsoft Research, uses λ<sub>JS</sub> for its JavaScript backend to produce
+verified Web browser extensions, and</li>
 
-Others have a secret reimplementation of λJS in Java. We are now enterprise-ready.
 
+<li>Seonghoon Kang and Sukyoung Ryu (KAIST) extend &lambda;<sub>JS</sub> to
+study JavaScript modules.</li>
+
+</ul>
+
+<p>This website highlights several of our own projects that use
+&lambda;<sub>JS</sub>.</p> 
 
 <h2>How to Use &lambda;<sub>JS</sub></h2>
 
-has two components: a <i>reduction semantics</i>
+TODO: links to 
 
+- Parser
 
-- Core caculus
-  - fits on three pages (unlike ECMAScript 3rd ed)
-    * Fragment of AST from ECOOP paper
-  - Mechanized in Coq
-    * Same fragment in Coq
-  - Mechanized in PLT Redex
-    * Same fragment in Redex
+- LambdaJS
 
-- Desugaring
-  - 1,000 LOC of Haskell (excluding auxiliary functions, such as the parser)
-  - (Mostly) compositional desugaring. (With is definitely not compositional;
-    lifting of variable declarations is unusual)
+- Coq
 
+- Redex
 
+<h2>Looking Forward: &lambda;<sub>JS</sub> For ECMAScript 5</h2>
+
+TODO
 
 </p>
 

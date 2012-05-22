@@ -34,3 +34,15 @@ body > div {
 .bordered  th {
   background-color: #cccccc;
 }
+
+figcaption {
+  font-size: 10pt;
+  font-weight: bold;
+  text-align: center;
+}
+
+.highlight {
+  font-size: 10pt;
+  border: 1px solid black;
+  padding: 5px;
+}
