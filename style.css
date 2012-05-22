@@ -46,3 +46,21 @@ figcaption {
   border: 1px solid black;
   padding: 5px;
 }
+
+#nav {
+  background-color: black;
+  color: white;
+  font-family: Helvetica, sans serif;
+  font-weight: bold;
+  font-size: 10pt;
+}
+
+#nav a {
+  color: white;
+}
+
+#nav > div {
+  display: inline;
+  margin: 5px;
+}
+  
