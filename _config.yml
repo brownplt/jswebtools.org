@@ -1,2 +1,2 @@
-safe: true
-source: src
+pygments: true
+exclude: _src

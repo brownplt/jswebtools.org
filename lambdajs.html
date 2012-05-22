@@ -1,0 +1,65 @@
+---
+layout: project
+title: "LambdaJS"
+---
+
+<p>Felleisen-Hieb style semantics for JavaScript</p>
+
+<p>Based on the JavaScript specification (i.e., core algorithms come from the
+  specification)
+
+<img src="img/toobject-spec.png">
+
+{% highlight ocaml %}
+let @toObject = fun(x) .
+  if typeof x === "undefined" then
+    throw ($makeException("TypeError", "toObject received undefined"))
+  else if x === null then
+    throw ($makeException("TypError", "toObject received null"))
+  else if typeof x === "boolean" then
+    ref { 
+      "$proto": "$Boolean.prototype",
+      "$class": "Boolean",
+      "$value": x
+    }
+  else if typeof x === "number" then
+    ref {
+      "$proto": "$Number.prototype",
+      "$class": "Number",
+      "$value": x
+    }
+  else if typeof x === "string" then
+    ref {
+      "$proto": "$String.prototype",
+      "$class": "String",
+      "$value": x
+    }
+  else
+    x
+{% endhighlight %}
+
+</p>
+
+
+<p>Tested to conform with actual Web browsers (December 2009)
+
+<img src="img/lambdajs-testing.png">
+
+</p>
+
+
+<h2>The LambdaJS Core Calculus</h2>
+
+
+- Core caculus
+  - fits on three pages (unlike ECMAScript 3rd ed)
+    * Fragment of AST from ECOOP paper
+  - Mechanized in Coq
+    * Same fragment in Coq
+  - Mechanized in PLT Redex
+    * Same fragment in Redex
+
+- Desugaring
+  - 1,000 LOC of Haskell (excluding auxiliary functions, such as the parser)
+  - (Mostly) compositional desugaring. (With is definitely not compositional;
+    lifting of variable declarations is unusual)
