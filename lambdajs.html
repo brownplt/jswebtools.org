@@ -1,54 +1,100 @@
 ---
 layout: project
-title: "LambdaJS"
+title: LambdaJS
 ---
 
-<p>Felleisen-Hieb style semantics for JavaScript</p>
+<h1>&lambda;<sub>JS</sub>: A Tested Semantics for JavaScript</h1>
 
-<p>Based on the JavaScript specification (i.e., core algorithms come from the
-  specification)
+<p>&lambda;<sub>JS</sub> is a small, tested semantics for JavaScript.
 
-<img src="img/toobject-spec.png">
 
-{% highlight ocaml %}
-let @toObject = fun(x) .
+<p>&Lambda;<sub>JS</sub> is a Felleisen-Hieb style semantics for JavaScript. 
+
+<h2>Based on the JavaScript Specification</h2>
+
+<p>&lambda;<sub>JS</sub> unambiguously encodes the prose in the official
+JavaScript specification (ECMA-262).</p>
+
+<table class="small">
+<tr>
+<td>
+<table class="bordered">
+<tr>
+<th>Input Type</th>
+<th>Result</th>
+</tr>
+<tr>
+<td>Undefined</td>
+<td>Throw a <b>TypeError</b> exception</td>
+</tr>
+<tr>
+<td>Null</td>
+<td>Throw a <b>TypeError</b> exception</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>Create a new Boolean object whose [[value]] property is set tot he value of the boolean. See 15.6 for a description of Boolean objects.</td>
+</tr>
+<tr>
+<td>etc.</td>
+</tr>
+</table>
+</td>
+
+<td>
+<pre>
+let toObject = fun(x) .
   if typeof x === "undefined" then
-    throw ($makeException("TypeError", "toObject received undefined"))
+    throw makeException("TypeError")
   else if x === null then
-    throw ($makeException("TypError", "toObject received null"))
+    throw makeException("TypError")
   else if typeof x === "boolean" then
     ref { 
       "$proto": "$Boolean.prototype",
       "$class": "Boolean",
       "$value": x
     }
-  else if typeof x === "number" then
-    ref {
-      "$proto": "$Number.prototype",
-      "$class": "Number",
-      "$value": x
-    }
-  else if typeof x === "string" then
-    ref {
-      "$proto": "$String.prototype",
-      "$class": "String",
-      "$value": x
-    }
   else
-    x
-{% endhighlight %}
+    ...
+</td>
+</tr>
 
-</p>
+<tr>
+<th>Algorithm 9.9 from the ECMA-262, 3rd. ed</th>
+<th>The same algorithm from the &lambda;<sub>JS</sub> source</th>
+</table>
 
+<h2>Tractable Reduction Semantics</h2>
 
-<p>Tested to conform with actual Web browsers (December 2009)
+We designed &lambda;<sub>JS</sub> to be amenable to proofs and an easy target
+for tools. We factor &lambda;<sub>JS</sub> into two components: a <i>reduction
+semantics</i> and a <i>desugaring function</i>.
+
+<h2>Tested Against Real Web Browsers</h2>
+
+<p>We
+
+Tested to conform with actual Web browsers (December 2009)
 
 <img src="img/lambdajs-testing.png">
 
-</p>
+<h2>Foundation for Several Tools</h2>
 
 
-<h2>The LambdaJS Core Calculus</h2>
+Others have built on λJS too:
+
+David van Horn and Matt Might use λJS to build an analytic framework for JavaScript,
+
+Rodolfo Toledo and Éric Tanter use λJS to specify aspects for JavaScript,
+
+IBEX, from Microsoft Research, uses λJS for its JavaScript backend to produce verified Web browser extensions, and
+
+Others have a secret reimplementation of λJS in Java. We are now enterprise-ready.
+
+
+<h2>How to Use &lambda;<sub>JS</sub></h2>
+
+has two components: a <i>reduction semantics</i>
 
 
 - Core caculus
@@ -63,3 +109,9 @@ let @toObject = fun(x) .
   - 1,000 LOC of Haskell (excluding auxiliary functions, such as the parser)
   - (Mostly) compositional desugaring. (With is definitely not compositional;
     lifting of variable declarations is unusual)
+
+
+
+</p>
+
+

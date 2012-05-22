@@ -1,0 +1,36 @@
+h1 h2 {
+  font-family: Helvetica, sans serif;
+}
+
+h1 {
+  font-size: 18pt;
+}
+
+h2 {
+  font-size: 16pt;
+}
+
+body {
+  max-width: 800px;
+  font-family: 'Garamond MT Std', Garamond, serif;
+  font-size: 14pt;
+  background-color: #cccccc;
+  margin: 0px;
+  border-right: 1px solid black;
+}
+
+body > div {
+  padding: 5px;
+}
+
+.small {
+  font-size: 10pt;
+}
+
+.bordered {
+  border: 1px solid black;
+}
+
+.bordered  th {
+  background-color: #cccccc;
+}
