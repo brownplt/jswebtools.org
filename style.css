@@ -15,9 +15,13 @@ body {
   font-size: 14pt;
   background-color: rgba(100, 100, 100, 0.05);
   margin: 0px;
+  
 }
 
-body > div {
+.content {
+  max-width: 790px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .small {
