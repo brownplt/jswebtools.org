@@ -63,4 +63,40 @@ figcaption {
   display: inline;
   margin: 5px;
 }
-  
+
+#toc .section {
+  font-size: 22px;
+  padding: 10px;
+}
+
+#toc .title {
+  font-size: 28px;
+}
+
+#toc .items > div {
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.foundation {
+  color: #00b945;
+}
+
+.tool {
+  color: #ff8500;
+}
+
+.app {
+  color: #d9005b;
+}
+
+.bg-foundation {
+  background-color: rgba(0, 185, 69, 0.05);
+}
+
+.bg-tool {
+  background-color: rgba(255, 133, 0, 0.05);
+}
+
+.bg-app {
+  background-color: rgba(217, 00, 91, 0.05);
