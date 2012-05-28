@@ -3,7 +3,7 @@ layout: project
 title: LambdaJS
 ---
 
-<div class="content">
+<div class="content foundation">
 
 <h1>&lambda;<sub>JS</sub>: A Tested Semantics for JavaScript</h1>
 
@@ -25,7 +25,7 @@ working with JavaScript use &lambda;<sub>JS</sub> to simplify their work.</p>
 JavaScript specification (ECMA-262).</p>
 
 <figure style="float: left; width: 300px">
-<table class="bordered small">
+<table style="background-color: white" class="bordered small">
 <tr>
 <th>Input Type</th>
 <th>Result</th>
@@ -50,6 +50,7 @@ JavaScript specification (ECMA-262).</p>
 </figure>
 
 <figure style="float:left">
+<div style="background-color: white">
 {% highlight ocaml %}
 let toObject = fun(x) .
   if typeof x === "undefined" then
@@ -65,6 +66,7 @@ let toObject = fun(x) .
   else
     ...
 {% endhighlight %}
+</div>
 <figcaption>Algorithm 9.9 encoded in &lambda;<sub>JS</sub></figcaption>
 </figure>
 
