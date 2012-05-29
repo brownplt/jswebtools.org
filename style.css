@@ -1,27 +1,24 @@
-h1 h2 {
-  font-family: Helvetica, sans serif;
-}
-
-h1 {
-  font-size: 18pt;
-}
-
-h2 {
-  font-size: 16pt;
-}
-
 body {
   font-family: 'Garamond MT Std', Garamond, serif;
   font-size: 14pt;
-  background-color: rgba(100, 100, 100, 0.05);
+  background-color: white;
   margin: 0px;
   
 }
 
+h1 {
+  font-family: Helvetica, sans serif;
+  font-size: 18pt;
+}
+
+h2 {
+  font-family: Helvetica, sans serif;
+  font-size: 16pt;
+}
+
 .content {
-  max-width: 800px;
+  max-width: 800px; /* navigation bar spans window, but body is constrainted */
   padding-left: 5px;
-  padding-right: 5px;
 }
 
 .small {
@@ -49,20 +46,6 @@ figcaption {
 }
 
 
-#nav {
-  padding: 5px;
-  border-bottom: 1px solid black;
-  box-shadow: inset 0 -20px 30px rgba(200, 200, 200, 0.5);
-  margin: 0px;
-  font-family: Helvetica, sans serif;
-  font-size: 18px;
-}
-
-#nav > div {
-  display: inline;
-  margin: 5px;
-}
-
 #toc .section {
   font-size: 22px;
   padding: 10px;
@@ -77,16 +60,29 @@ figcaption {
   margin-top: 5px;
 }
 
+.foundationColor {
+  color: rgba(0, 185, 69, 1.0);
+}
+
+
+.toolColor {
+  color: rgba(255, 133, 0, 1.0);
+}
+
+.appColor {
+  color: rgba(217, 00, 91, 1.0);
+}
+
 .bg-foundation {
   background-color: rgba(0, 185, 69, 0.05);
 }
 
 .tool > h1 {
-  background-color: rgba(255, 133, 0, 0.05);
+  color: rgba(255, 133, 0, 1.0);
 }
 
 .tool > h2 {
-  background-color: rgba(255, 133, 0, 0.05);
+  color: rgba(255, 133, 0, 1.0);
 }
 
 .app > h1 {
@@ -106,8 +102,24 @@ figcaption {
 }
 
 
-.title {
+/* Navigation along the top of each page */
+#nav {
+  padding: 5px;
+  border-bottom: 1px solid black;
+  box-shadow: inset 0 -20px 30px rgba(220, 220, 220, 0.5);
+  margin: 0px;
+  font-family: Helvetica, sans serif;
+  font-size: 18px;
+}
+
+#nav > div {
+  display: inline;
+  margin: 5px;
+}
+
+#nav > .title {
   font-size: 26px;
   font-family: Helvetica, sans serif;
   font-weight: bold;
 }
+
