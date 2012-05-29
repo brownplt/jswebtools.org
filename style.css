@@ -7,12 +7,10 @@ body {
 }
 
 h1 {
-  font-family: Helvetica, sans serif;
   font-size: 18pt;
 }
 
 h2 {
-  font-family: Helvetica, sans serif;
   font-size: 16pt;
 }
 
@@ -86,11 +84,11 @@ figcaption {
 }
 
 .app > h1 {
-  background-color: rgba(217, 00, 91, 0.05);
+  color: rgba(217, 00, 91, 1.0);
 }
 
 .app > h2 {
-  background-color: rgba(217, 00, 91, 0.05);
+  color: rgba(217, 00, 91, 1.0);
 }
 
 .foundation > h1 {
@@ -100,7 +98,6 @@ figcaption {
 .foundation > h2 {
   color: #00b945;
 }
-
 
 /* Navigation along the top of each page */
 #nav {

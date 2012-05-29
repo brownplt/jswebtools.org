@@ -7,17 +7,38 @@ title: LambdaJS
 
 <h1>&lambda;<sub>JS</sub>: A Tested Semantics for JavaScript</h1>
 
-<p>&lambda;<sub>JS</sub> is a tested operational semantics for JavaScript.  We
-designed it to be amenable to proofs and a simple target language for
-tools.</p>
+<p>&lambda;<sub>JS</sub> is a tested operational semantics for JavaScript.  It
+is designed to be amenable to proofs and a simple target language for
+tools. The core semantics is much smaller and simpler than the JavaScript
+specification (three pages vs. 180 pages). Several other research groups
+employ &lambda;<sub>JS</sub> to simplify their work.</p>
 
-<p>The core semantics is much smaller and simpler than the JavaScript
-specification (three pages vs. 180 pages). Therefore, several researchers
-working with JavaScript use &lambda;<sub>JS</sub> to simplify their work.</p>
+<h2>A Tractable Reduction Semantics</h2>
 
+<p>&lambda;<sub>JS</sub> is factored into two components.</p>
 
+<ul>
 
-<p>&lambda;<sub>JS</sub> also features a 
+<li>A <i>reduction semantics</i> models JavaScript's
+essentials&mdash;prototype-based objects, first-class functions, and control
+operators. We mechanize the reduction semantics in the <a
+href="http://coq.inria.fr/">Coq Proof Assistant</a> and <a
+href="http://redex.racket-lang.org">PLT Redex</a>. The reduction semantics is
+small&mdash;three pages&mdash; and therefore tractable. All out tools and
+theorems work over this reduction semantics instead of targeting JavaScript
+directly.</li>
+
+<li>A <i>desugaring function</i> models JavaScript's details&mdash;implicit type
+conversions, four kinds of loops, switch statements, broken class-like syntax,
+etc. We implement desugaring in 600 lines of Haskell (with 2,000 lines for the
+JavaScript environment). With the exception of the <code>with</code> statement,
+desugaring is compositional, which lets us lift theorems about
+&lambda;<sub>JS</sub> to JavaScript theorems.</li>
+
+</ul>
+
+<p>This separation of essentials and details makes &lambda;<sub>JS</sub> a
+tractable target for tools and theorems.</p>
 
 <h2>Based on the JavaScript Specification</h2>
 
@@ -70,45 +91,42 @@ let toObject = fun(x) .
 <figcaption>Algorithm 9.9 encoded in &lambda;<sub>JS</sub></figcaption>
 </figure>
 
-<h2>Tractable Reduction Semantics</h2>
-
-<p>&lambda;<sub>JS</sub> is factored into two components: a <i>reduction
-semantics</i> and a <i>desugaring function</i>.</p>
-
-<ul>
-
-<li>The reduction semantics models JavaScript's
-essentials&mdash;prototype-based objects, first-class functions, and control
-operators. The reduction semantics is mechanized with the <a
-href="http://coq.inria.fr/">Coq Proof Assistant</a> and <a
-href="http://redex.racket-lang.org">PLT Redex</a>.
-</li>
-
-<li>The desugaring function models JavaScript's details&mdash;implicit type
-conversions, four kinds of loops, switch statements, broken class-like syntax,
-etc. We implement desugaring in 600 lines of Haskell (with 2,000 lines for the
-JavaScript environment). With the expection of the <code>with</code> statement,
-desugaring is compositional, which lets us lift theorems about
-&lambda;<sub>JS</sub> to JavaScript theorems.</li>
-
-</ul>
-
-<p>Therefore, we simplify our JavaScript tools by first desugaring to
-equivalent &lambda;<sub>JS</sub> programs.</p>
 
 <h2>Tested Against Real Web Browsers</h2>
 
-<p>Since we mechanize desugaring and the reduction semantics, we are obliged to
-ask if &lambda;<sub>JS</sub> is an adequate model of JavaScript. To do so, we
-test &lambda;<sub>JS</sub> against real Web browsers to confirm that it
-produces the same result.</p>
+<p>JavaScript is a complex language with an informal specification that Web
+browsers sometimes wilfully ignore (e.g., <a
+href="http://code.google.com/p/v8/issues/list?q=label:DeliberateSpecViolation">V8</a>).
+&lambda;<sub>JS</sub> needs to argue that it is an adequate JavaScript
+semantics. We could try to prove a correspondence between &lambda;<sub>JS</sub>
+and a direct semantics for JavaScript, but that begs the question: What is the
+semantics of JavaScript?</p>
+
+<p>In practice, JavaScript is truly defined by its major implementations. Open-source Web browsers are accompanied by extensive JavaScript test suites. We use
+parts of these test suites to test our semantics.</p>
 
 <figure style="float:right">
 <img src="lambdajs-testing.png">
 <figcaption>The &lambda;<sub>JS</sub> Testing Experiment</figure>
 </figure>
 
-<h2>Foundation for Several Tools</h2>
+<p>Since we mechanize desugaring and the reduction semantics, we can desugar
+and then run JavaScript programs. We can run the same programs directly with a
+"real" JavaScript implementation. We then check if &lambda;<sub>JS</sub>
+produces exactly the same output.</p>
+
+<p>We perform this experiment with <a
+href="http://www.mozilla.org/rhino/">Rhino</a>, <a
+href="https://developer.mozilla.org/en/SpiderMonkey">SpiderMonkey</a>, and <a
+href="http://code.google.com/p/v8/">V8</a>, using a fragment of the Mozilla
+JavaScript test suite. The experiment reveals differences between each
+implementation (<a href="rhino-tests.txt">Rhino</a>, <a
+href="spidermonkey-tests.txt">SpiderMonkey</a>, and <a
+href="v8-tests.txt">V8</a>). &lambda;<sub>JS</sub> achieves fidelity with
+Rhino. We are confident that we can account for the differences with minor
+variations in desugaring while leaving the reduction semantics intact.</p>
+
+<h2>Other Users of &lambda;<sub>JS</sub></h2>
 
 <p>Several other groups have built systems with &lambda;<sub>JS</sub>:</p>
 
@@ -137,20 +155,31 @@ study JavaScript modules.</li>
 
 <h2>How to Use &lambda;<sub>JS</sub></h2>
 
-TODO: links to 
+<p>&lambda;<sub>JS</sub> consists of several independent tools.
 
-- Parser
+<ul>
 
-- LambdaJS
+<li>A JavaScript <a href="https://github.com/brownplt/webbits">parser and
+pretty-printer</a>, written in Haskell.</li>
 
-- Coq
+<li>An implementation of <a href="https://github.com/brownplt/LambdaJS/tree/master/haskell">desugaring</a>, written in Haskell. The core desugaring function is in <a href="https://github.com/brownplt/LambdaJS/blob/master/haskell/src/Language/LambdaJS/Desugar.hs">Desugar.hs</a>. 
 
-- Redex
+<li>An <a href="https://github.com/brownplt/LambdaJS/blob/master/Redex/jscore.ss">executable reduction semantics</a>, written in PLT Redex.</li>
+
+<li>An <a href="https://github.com/brownplt/LambdaJS/blob/master/Redex/interp.ss">interpreter</a> for &lambda;<sub>JS</sub>, written in Racket. The Redex semantics above are executable, but this interpreter is significantly faster.</li>
+
+<li>A <a href="https://github.com/brownplt/LambdaJS/blob/master/coq/LambdaJS.v">machine-checked reduction semantics</a> in Coq.</li>
+
+</ul>
+
+</p>
 
 <h2>Looking Forward: Semantics for For ECMAScript 5</h2>
 
-TODO
-
+<p>JavaScript is a moving target. &lambda;<sub>JS</sub>, developed in late
+2009, does not support the new features of ECMAScript 5. We&apos;ve developed
+an updated <a href="/s5">semantics for ECMAScript 5</a>, which is more complete
+(e.g., supports eval) and has better test coverage.
 </p>
 
 </div>
