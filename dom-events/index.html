@@ -1,12 +1,27 @@
 ---
 layout: project
-title: S5
+title: A Model of DOM Event Dispatch
 ---
 
-<h1>The Future is Now</h1>
+<div class="content foundation">
 
-- Uses strobe to verify that Firefox extensions do not violate safety properties
-  in private browsing mode
-- Found and fixed bugs in several extensions
-- Key difference from Strobe: types of the Firefox API annotated to indicate
-  whether they are safe for private browsing
+<h1>Modeling and Reasoning About DOM Events</h1>
+
+<p>Web applications are fundamentally reactive. Code in a web page runs in
+reaction to events, which are triggered either by external stimuli or by other
+events. The DOM, which specifies these behaviors, is therefore central to the
+behavior of web applications. We define the first formal model of event
+behavior in the DOM, with high fidelity to the DOM specification. Our model is
+concise and executable, and can therefore be used for testing and verification.
+We have applied it in several settings: to establish some intended
+meta-properties of the DOM, as an oracle for testing the behavior of browsers
+(where it found real errors), to demonstrate unwanted interactions between
+extensions and validate corrections to them, and to examine the impact of a web
+sandbox. The model composes easily with models of other web components, as a
+step toward full formal modeling of the web.</p>
+
+<h2>Code</h2>
+
+<p>Our model of DOM event dispatch is <a href="https://github.com/brownplt/DOM-Semantics">available online</a>.</p>
+
+</div>
