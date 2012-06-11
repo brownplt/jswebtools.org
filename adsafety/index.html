@@ -3,9 +3,106 @@ layout: project
 title: ADsafety
 ---
 
-- Uses the strobe type-checker to verify several safety properties of the
-  ADsafe Web sandbox (pictures)
-- Found and fixed several bugs in ADsafe that manifested as type-errors
-  (examples)
+<div class="content app">
 
-- Key difference from the main type-checker: admits more errors (example)
+<h1>ADsafety</h1>
+
+<h2>Mashups and Mashup Security</h2>
+
+<figure style="float: right;"><img src="http://brownplt.github.com/img/adsafety.png" /></figure>
+
+<p> A <i>mashup</i> is a webpage that mixes and mashes content from various
+sources. Facebook apps, Google gadgets, and various websites with embedded maps
+are obvious examples of mashups. However, there is an even more pervasive use
+case of mashups on the Web. Any webpage that displays third-party ads is a
+mashup. It's well known that third-party content can include third-party
+cookies; your browser can even block these if you're concerned about "tracking
+cookies". However, third party content can also include third-party JavaScript
+that can do all sorts of wonderful and malicious things (<a
+href="http://www.bbc.co.uk/news/technology-12891182">just</a> <a
+href="http://news.cnet.com/8301-27080_3-20000898-245.html">some</a> <a
+href="http://www.networkworld.com/news/2011/030111-malware-ads-hit-london-stock.html">examples</a>).
+</p>
+
+<p>Is it possible to safely embed untrusted JavaScript on a page? Google Caja,
+Microsoft Web Sandbox, and ADsafe are <i>language-based Web sandboxes</i> that
+try to do so. Language-based sandboxing is a programming language technique
+that restricts untrusted code using static and runtime checks and rewriting
+potential dangerous calls to safe, trusted functions.</p>
+
+<p>Sandboxing JavaScript, with all its corner cases, is particularly hard. A
+single bug can easily break the entire sandboxing system. JavaScript sandboxes
+do not clearly state their intended guarantees, nor do they clearly argue why
+they are safe.  <figure style="float: left;"> <img
+src="http://brownplt.github.com/img/adsafe-settimeout.png" /> <figcaption>This is how ADsafe
+works.</figcaption> </figure> </p>
+
+<h2>Verifying Web Sandboxes</h2>
+
+<p>In 2011, we embarked on a project to verify <a
+href="http://www.adsafe.org/">ADsafe</a>, <a
+href="http://www.crockford.com/">Douglas Crockford</a>'s Web sandbox. ADsafe is
+admittedly the simplest of the aforementioned sandboxes. But, we were also
+after the shrimp bounty that Doug offers for sandbox-breaking bugs:
+
+<blockquote cite="http://tech.groups.yahoo.com/group/caplet/message/44">
+Write a program [...] that calls the alert function when run on any browser. If the program produces no errors when linted with the ADsafe option, then I will buy you a plate of shrimp. (<a href="http://tech.groups.yahoo.com/group/caplet/message/44">link</a>)
+</blockquote>
+
+We wrote a <a
+href="http://www.cs.brown.edu/~sk/Publications/Papers/Published/pegk-type-verif-js-sandbox/">USENIX
+Security paper</a> on our work.
+ The paper discusses the many common techniques
+employed by Web sandboxes and discusses the intricacies of their
+implementations. (TLDR: JavaScript and the DOM are really hard.) Focusing on
+ADsafe, it precisely states what ADsafety actually means. The meat of the paper
+is our approach to verifying ADsafe using types. Our verification leverages our
+earlier work on <a
+href="http://www.cs.brown.edu/~sk/Publications/Papers/Published/gsk-essence-javascript/">semantics</a>
+and <a
+href="http://www.cs.brown.edu/~sk/Publications/Papers/Published/gsk-flow-typing-theory/">types</a>
+for JavaScript, and also introduces some new techniques:</p>
+
+<ul>
+
+<li>Check out the <span style="font-size: large;">★</span>s and <span
+style="font-size: large;">☠</span>s in our object types; we use them to
+type-check "scripty" features of JavaScript. <span style="font-size:
+large;">☠</span> marks a field as "banned" and <span style="font-size:
+large;">★</span> specifies the type of all other fields.</li>
+
+<li>We also characterize JSLint as a type-checker. The Widget type presented in
+the paper specifies, in 20 lines, the syntactic restrictions of JSLint's
+ADsafety checks.</li>
+
+</ul>
+
+<p>Unlike conventional type systems, ours does not prevent runtime errors.
+After all, stuck programs are safe because they trivially don't execute any
+code. If you think type systems only catch "method not found" errors, you
+should have a look at ours.</p>
+
+<p>We found bugs in both ADsafe and JSLint that manifested as type errors. We reported all of them and they were promptly fixed by Doug Crockford. A big thank you to Doug for his encouragement, for answering our many questions, and for buying us every type of shrimp dish in the house.
+<div class="center">
+<figure> <img class="center" src="http://brownplt.github.com/img/shrimp-bounty.jpg" width="320" /> <figcaption>Doug Crockford, Joe, Arjun, and seven shrimp dishes</figcaption> </figure> </div>
+</p>
+
+<h2>Code</h2>
+
+<p>We verified ADsafe using <a href="/strobe">Strobe</a>, our type-checker for JavaScript. A snapshot of Strobe with type-annotated ADsafe is <a href="http://www.cs.brown.edu/research/plt/dl/adsafety/v1/adsafety.tgz">available online (.tar.gz)</a>.</p>
+
+<h2>More Information</h2>
+<p>
+Learn more about ADsafety!  Check out:
+</p>
+
+<ul>
+<li>
+  <a href="http://www.usenix.org/multimedia/sec11politz">Video</a> of Arjun presenting at USENIX Security;
+</li>
+<li>
+  <a href="http://www.adsafe.org">ADsafe</a> and <a href="http://www.jslint.org">JSLint</a>.
+</li>
+</ul>
+
+</div>

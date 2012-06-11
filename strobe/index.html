@@ -11,38 +11,37 @@ title: "Strobe"
 
 <h2>Type Checking + Flow Analysis</h2>
 
-<p>TODO: control flow graph</p>
+<p>Strobe integrates type-checking and flow analysis to type-check programs
+that use control and state to reason about types:</p>
 
 {% highlight javascript %}
-/*: forall a . Array<'a> * Num * Num + Undef -> Array<'a> */
-function slice(arr, start, stop) {
-  if (typeof stop === "undefined") {
-    stop = arr.length;
-  }
-  var r = /*: 'a */[ ];
-  for (var i = start; start < stop; i++) {
-    r.push(arr[i]);
-  }
-  return r;
+if (typeof stop === "undefined") {
+  stop = arr.length;
 }
 {% endhighlight %}
 
-<pre>
+</p>
 
-<h2>Fluid Object Types (TODO: we have a new name for this?)</h2>
+<h2>First-Class Field Names</h2>
 
-- examples
+<p>Strobe can type-check programs that use dynamically constructed strings to access fields on objects:
 
-<h2>Type-checking &lambda;<sub>JS</sub></h2>
+{% highlight javascript %}
+o[x + "_mysuffix_"] = 42;
+{% endhighlight %}
 
-- We use LambdaJS, not JavaScript
+</p>
 
 <h2>Applications</h2>
 
-- ADsafety
+<p>We've used Strobe's types to verify some significant pieces of code,
+including <a href="/adsafety">the ADsafe Web sandbox</a> and <a
+href="/pbm">several Firefox extensions' compatibility with private browsing
+mode</a>.</p>
 
-- Type-checking extensions
+<h2>Code</h2>
 
-</pre>
+<p>Strobe is open-source and available on <a
+href="https://github.com/brownplt/strobe">Github</a>.</p>
 
 </div>
