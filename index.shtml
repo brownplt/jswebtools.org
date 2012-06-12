@@ -52,7 +52,15 @@ browsers</li>
   
 <li><a href="adsafety">ADsafety</a>: verifying language-based Web
 sandboxes</li>
-  
+
+<li><a href="intrusion-detection">Static Analysis for Intrusion
+Detection</a>: finding attacks on AJAX-based applications</li>
+
+<li>
+
+  <a href="flapjax">Flapjax</a>: a language and library for reactive web
+applications</li>
+
 </ul>
 
 </div>
