@@ -53,8 +53,8 @@ browsers</li>
 <li><a href="adsafety">ADsafety</a>: verifying language-based Web
 sandboxes</li>
   
-<li><a href="pbm">UnsafePerformReview</a>: verifying browser extensions in private
-browsing mode</li>
+<li><a href="pbm">Types for private browsing</a>: verifying browser extensions behave properly
+in private browsing mode</li>
 
 </ul>
 
