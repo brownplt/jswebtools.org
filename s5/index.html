@@ -1,12 +1,128 @@
 ---
 layout: project
-title: S5
+title: S5 - A Semantics for Modern JavaScript
 ---
 
-<h1>The Future is Now</h1>
+<div class="content foundation">
+<h1>S5: A Semantics for Modern JavaScript</h1>
 
-- Uses strobe to verify that Firefox extensions do not violate safety properties
-  in private browsing mode
-- Found and fixed bugs in several extensions
-- Key difference from Strobe: types of the Firefox API annotated to indicate
-  whether they are safe for private browsing
+
+<p> The JavaScript language isn't static―the ECMAScript committee is working
+hard to improve the language, and browsers are implementing features both in
+and outside the spec, making it difficult to understand just what "JavaScript"
+means at any point in time.  Existing implementations aren't much help―their
+goal is to serve pages well and fast.  We need a JavaScript architecture that
+can help us make sense of the upcoming (and existing!) features of the
+language.  </p>
+
+<p> To this end, we've developed <a
+href="http://www.github.com/brownplt/LambdaS5">S5</a>, an ECMAScript 5
+runtime, built on λ<sub>JS</sub>, with the explicit goal of helping people
+understand and tinker with the language.  We built it to understand the
+features in the new standard, building on our <a
+href="http://brownplt.github.com/2011/09/29/js-essence.html">previous
+efforts</a> for the older standard.  We've now begun building analyses for this
+semantics, and are learning more about it as we do so.  We're making it
+available with the hope that you can join us in playing with ES5,
+extending it with new features, and building tools for it.</p>
+
+<p> S5 implements the core features of ES5 strict mode.  How do we know
+this?  We've tested S5 against <a
+href="http://test262.ecmascript.org/">Test262</a> to measure our progress.  We
+are, of course, not feature complete, but we're happy with our progress, which
+you can check out <a
+href="http://www.cs.brown.edu/~joe/public/s5-tests/summary.html">here</a>.
+
+
+<h2> A Malleable Implementation </h2>
+
+<p> The semantics of S5 is designed to be two things: a language for writing
+down the algorithms of the specification, and a translation target for
+JavaScript programs.  We've implemented an <a
+href='https://github.com/brownplt/LambdaS5/blob/a20d9885ca8277af81029982e5a5c0d903600b31/src/ljs/ljs_eval.ml'>interpreter</a>
+for S5, and a <a
+href="https://github.com/brownplt/LambdaS5/blob/a20d9885ca8277af81029982e5a5c0d903600b31/src/exprjs/exprjs_to_ljs.ml"><em>desugaring function</em></a>
+that translates JavaScript source into S5 programs.</p>
+
+<p> We have a number of choices to make in defining desugaring.  The ECMAScript
+standard defines a whole host of auxiliary functions and library routines that
+we must model.  Putting these implementations directly in the desugaring
+function would work, but would make desugaring unnecessary brittle, and require
+recompilation on every minor change.  Instead, we implement the bulk of this
+functionality as an S5 program.  The majority of our work happens in <a
+href="https://github.com/brownplt/LambdaS5/blob/a20d9885ca8277af81029982e5a5c0d903600b31/envs/es5.env">an
+environment file</a> that defines the spec in S5 itself.  The desugaring
+defines a translation from the syntactic forms of JavaScript to the (smaller)
+language of S5, filled with calls into the functions defined in this
+environment.</p>
+
+<p> This separation of concerns is what makes our implementation so amenable to
+exploration.  If you want to try something out, you can edit the environment
+file and rerun whatever tests you care to learn about.  Want to try a different
+implementation of the <code>==</code> operator?  Just change the definition, as
+it was pulled from the spec, at <a
+href="https://github.com/brownplt/LambdaS5/blob/a20d9885ca8277af81029982e5a5c0d903600b31/envs/es5.env#L300">line
+300</a>.  Want a more expressive <code>Object.toString()</code> that doesn't
+just print <code>"[object Object]"</code>?  That's <a
+href="https://github.com/brownplt/LambdaS5/blob/a20d9885ca8277af81029982e5a5c0d903600b31/envs/es5.env#L990">right
+here</a>.  No changing an interpreter, no recompiling a desugaring function
+necessary.  </p>
+
+<p> The environment we've written reflects the standard's algorithms as we
+understand them in terms of S5.  The desugaring from JavaScript to S5 code with
+calls into this library is informed by the specification's definitions of
+expression and statement evaluation.  We have confidence in the combination of
+desugaring and library implementation, given our increasing test coverage.
+Further, we know how to continue―implement more of the spec and pass more test
+cases!  </p>
+
+
+<h2> More than λ<sub>JS</sub> </h2>
+
+<p> S5 is built on λ<sub>JS</sub>, but extends it in three significant ways:
+
+<ul>
+<li> Explicit getters and setters; </li>
+<li> Object fields with attributes, like <code>writable</code> and <code>configurable</code>, built-in; </li>
+<li> Support for <code>eval().</code>
+</ul>
+
+For those that haven't fiddled with getters and setters, they are a new feature
+introduced in ECMAScript 5 that allow programmer-defined behavior on property
+access and assignment.  Getters and setters fundamentally change how property
+access and assignment work.  They make property assignment interact with the
+prototype chain, which used to not be the case, and cause syntactically similar
+expressions to behave quite differently at runtime. 
+
+</p>
+
+<p> Attributes on objects weren't treated directly in the original
+λ<sub>JS</sub>.
+In 5th Edition, they are crucial to several security-relevant operations on
+objects. For example, the standard specifies <code>Object.freeze()</code>,
+which makes an object's properties forever unwritable.  S5 directly models the
+<code>writable</code> and <code>configurable</code> attributes that make this
+operation possible, and make its implementation in S5 easy to understand.
+</p>
+
+<p>
+
+λ<sub>JS</sub> explicitly elided <code>eval()</code> from its semantics.  S5
+implements <code>eval()</code> by performing desugaring <em>within the
+interpreter</em> and then interpreting the desugared code.  We implement only
+the strict mode version of <code>eval</code>, which restricts the environment
+that the <code>eval</code>'d code can affect.  With these restrictions, we can
+implement <code>eval</code> in a straightforward way within our interpreter.
+
+</p>
+
+
+<h2>Code: Building on S5</h2>
+
+<p>
+S5 is open source and lives in a <a
+href="https://github.com/brownplt/LambdaS5">Github repository</a>.
+</p>
+
+
+</div>
