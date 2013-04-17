@@ -1,0 +1,35 @@
+---
+layout: project
+title: "jQuery-types"
+---
+
+<div class="content tool">
+
+<h1>JQuery-Types: Type-checking jQuery Client Code</h1>
+
+<p>JQuery's APIs allow programmers to select a set of nodes in a
+  document, navigate to new nodes (relative to previously-selected
+  ones), and manipulate selected nodes.  This API is flexible,
+  powerful, and sufficiently different from low-level DOM programming
+  that it might as well be its own language &mdash; and can and should
+  be analyzed as such.</p>
+
+<p>We have built a type checker to detect <i>query errors</i>, where
+  queries return too many, too few, or just unexpected results.  This
+  type checker needs to keep track of the <i>sizes</i> of query
+  results in addition to their types.  This in turn requires
+  developing a sufficiently expressive yet still decidable
+  representation of sizes, a representation of &ldquo;local
+  structures&rdquo; within the markup, and a sufficient encoding of
+  CSS selectors to connect local structures to query types.</p>
+
+<h2>Code</h2>
+
+<p>Our type-checker is implemented using our
+  open-source <a href="/tejas">TeJaS</a> framework, and is available
+  on
+  <a href="https://github.com/brownplt/TeJaS">Github</a>.  To use,
+  edit <code>src/main.ml</code> on line 9 to set <code>module Actions
+    = JQI.Actions</code>, then build and run as normal.</p>
+
+</div>

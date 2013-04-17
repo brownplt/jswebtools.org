@@ -1,0 +1,37 @@
+---
+layout: project
+title: "TeJaS"
+---
+
+<div class="content tool">
+
+<h1>TeJaS: A Family of Type-Checkers for JavaScript</h1>
+
+<p>Programmers use type systems to prevent errors in their programs,
+  but precisely <i>which</i> behaviors should be considered erroneous
+  varies from programmer to programmer.  Indeed, the flexibility of
+  JavaScript makes it essentially futile to design a <i>single</i>
+  type system that is flexible enough for all purposes; instead, we
+  need multiple, related type systems that can be customized for each
+  programmer.</p>
+
+
+<h2>Flexible Implementations of Type Systems</h2>
+<p>Our implementation takes advantage of OCaml's functor system, and
+  provides a <code>Base</code> type system module with typical types
+  and typing rules, and hooks for an <code>Extension</code> module to
+  extend the <code>Base</code> with new types and typing rules.</p>
+
+<h2>Applications</h2>
+
+<p>We've used TeJaS to implement a <a href="/jquery">type system for
+    jQuery</a>, which augments the <code>Base</code> system with new
+    kinds for describing the sizes of jQuery collection objects.
+</p>
+
+<h2>Code</h2>
+
+<p>TeJaS is open-source and available on <a
+href="https://github.com/brownplt/TeJaS">Github</a>.</p>
+
+</div>
