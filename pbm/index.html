@@ -1,16 +1,47 @@
 ---
 layout: project
-title: Extensions + Private Browsing Mode
+title: "Verifying Private Browsing Mode for Firefox Extensions"
 ---
 
-<div class="content app">
+<div class="content tool">
 
-<h1>Verifying Extensions in Private Browsing Mode</h1>
+<h1>Private Browsing Mode, Browser Extensions and Type Systems</h1>
 
-<p><i>Project description coming soon.</i></p>
+<p> All modern browsers now support a &ldquo;private browsing mode&rdquo;, in
+  which the browser ostensibly leaves behind no traces on the user's
+  file system of the user's browsing session. This is quite subtle:
+  browsers have to handle caches, cookies, preferences, bookmarks,
+  deliberately downloaded files, and more. So browser vendors have
+  invested considerable engineering effort to ensure they have
+  implemented it correctly.</p>
 
-<h2>Code</h2>
+<p>Firefox, however, supports extensions, which allow third party code
+  to run with all the privilege of the browser itself.  When not in
+  private-browsing mode, these extensions are permitted to do anything
+  they like...and unfortunately, while <em>in</em> private-browsing
+  mode, they are not tecnically prevented from doing anything,
+  either. What happens to the security guarantee of private browsing
+  mode, then?</p>
 
-<p>We verified Firefox extensions using <a href="/strobe">Strobe</a>, our type-checker for JavaScript. A snapshot of Strobe with several type-annotated extensions is <a href="https://github.com/brownplt/strobe/tree/pbm-verif">available online</a>.</p>
+<p>We have built a type checker to detect data-leaking actions that
+  might occur while the browser is running in private browsing mode.
+  To a rough first approximation, this type system is similar to
+  the <a href="/adsafety">ADsafety system</a>, in that it blocks
+  access to several of Firefox's APIs (e.g., the various ways to write
+  to disk, among other APIs).  The essential difference, however, is in
+  encoding the extensions' allowable behaviors in public and private
+  modes as distinct type environments, so that one type-checker
+  suffices for both modes.</p>
+
+<h2>Code and Further Reading</h2>
+<p><a href="http://blog.brownplt.org/2013/08/19/incognito.html">Our
+    blog</a> has a post with more details.  For complete detail, our
+  <a href="http://cs.brown.edu/~blerner/papers/esorics2013_pbm.html">paper</a>
+  is available as well.  Finally, our type-checker is implemented using our
+  open-source <a href="/tejas">TeJaS</a> framework, and is available
+  on
+  <a href="https://github.com/brownplt/TeJaS">Github</a>.  To use,
+  edit <code>src/main.ml</code> on line 9 to set <code>module Actions
+  = BI.Actions</code>, then build and run as normal.</p>
 
 </div>
