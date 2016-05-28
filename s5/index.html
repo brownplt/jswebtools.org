@@ -76,6 +76,18 @@ desugaring and library implementation, given our increasing test coverage.
 Further, we know how to continue―implement more of the spec and pass more test
 cases!  </p>
 
+<p> Recently, we've taken the idea of a malleable implementation further.  The
+desugaring function produces large S5 programs in order to match the standard
+with as much fidelity as possible.  However, not all analyses or tool-writers
+want or need all that detail – if an analysis assumes lexical scope, for
+example, S5 provides more detail than the analysis needs.  Assuming lexical
+scope in the context of (nonstrict) <code>eval</code> is an unsound assumption,
+so removing this detail needs to be done with that in mind, but it also may may
+some analyses more tractable.  With this in mind, we investigated <a
+href="http://blog.brownplt.org/2016/01/08/slimming-languages.html"><em>semantics-altering</em>
+transformations</a> to the generated code that produce much smaller resulting
+S5 programs, at the cost of some semantic fidelity (measured by test
+cases).</a>
 
 <h2> More than λ<sub>JS</sub> </h2>
 
